@@ -5,6 +5,10 @@ This project focuses on building a secure CI/CD pipeline based on Zero Trust Arc
 
 ---
 
+![Pipeline Workflow](./images/pipeline-diagram.png "Pipeline Overview")
+
+---
+
 ## 🚀 Features
 - **Strict Access Controls:** Role-Based Access Control (RBAC) and least privilege principles.
 - **Continuous Verification:** Identity, code, and infrastructure validation at each pipeline stage.
