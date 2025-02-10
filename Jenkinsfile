@@ -113,7 +113,7 @@ pipeline {
                                     --template '@/usr/local/share/trivy/templates/html.tpl' \
                                     --output ${reportDir}/trivy-report.html \
                                     --exit-code 0 
-                                    --secerity HIGH, CRITICAL
+                                    --severity HIGH, CRITICAL
 
                                 trivy image ${DOCKER_IMAGE}:${DOCKER_TAG} \
                                     --format json \
