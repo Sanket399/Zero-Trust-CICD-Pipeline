@@ -119,7 +119,22 @@ pipeline {
                                     --exit-code 1 \
                                     --severity HIGH,CRITICAL
                             """
-                            
+                            """
+
+                                trivy fs ${APP_CODE_DIR} \
+                                    -o ${reportDir}/trivy-fs-report.html \
+                                    --format template \
+                                    --template '/usr/local/share/trivy/templates/html.tpl' \
+                                    --security-checks vuln,config,secret \
+                                    --exit-code 0
+
+                                trivy fs ${APP_CODE_DIR} \
+                                    -o ${reportDir}/trivy-fs-report.json \
+                                    --format json \
+                                    --security-checks vuln,config,secret \
+                                    --exit-code 1 \
+                                    --severity HIGH,CRITICAL
+                            """
                             // Archive the reports
                             archiveArtifacts artifacts: "${reportDir}/**/*", allowEmptyArchive: true
                             
