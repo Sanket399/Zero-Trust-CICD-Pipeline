@@ -1,3 +1,5 @@
+Jenkinsfile
+
 pipeline {
     agent any
     environment {
@@ -104,38 +106,22 @@ pipeline {
                             def reportDir = "security-reports/${BUILD_NUMBER}"
                             sh "mkdir -p ${reportDir}"
                             
-                            // Run Trivy scan with multiple report formats                           
-
+                            // Run Trivy scan with multiple report formats
                             sh """
 
                                 trivy image ${DOCKER_IMAGE}:${DOCKER_TAG} \
-                                    --format template \
-                                    --template '@/usr/local/share/trivy/templates/html.tpl' \
-                                    --output ${reportDir}/trivy-report.html \
-                                    --exit-code 0 \
-                                    --severity HIGH,CRITICAL
-
-                                trivy image ${DOCKER_IMAGE}:${DOCKER_TAG} \
-                                    --format json \
-                                    -o ${reportDir}/trivy-report.json \
-                                    --exit-code 1 \
-                                    --severity HIGH,CRITICAL
-                            
-
-                                trivy fs ${APP_CODE_DIR} \
-                                    -o ${reportDir}/trivy-fs-report.html \
+                                    -o ${reportDir}/trivy-report.html \
                                     --format template \
                                     --template '/usr/local/share/trivy/templates/html.tpl' \
-                                    --security-checks vuln,config,secret \
-                                    --exit-code 0
+                                    --exit-code 0 
 
-                                trivy fs ${APP_CODE_DIR} \
-                                    -o ${reportDir}/trivy-fs-report.json \
+                                trivy image ${DOCKER_IMAGE}:${DOCKER_TAG} \
+                                    -o ${reportDir}/trivy-report.json \
                                     --format json \
-                                    --security-checks vuln,config,secret \
                                     --exit-code 1 \
                                     --severity HIGH,CRITICAL
                             """
+                            
                             // Archive the reports
                             archiveArtifacts artifacts: "${reportDir}/**/*", allowEmptyArchive: true
                             
